@@ -12,3 +12,10 @@
 export const validatePlayers = (name1, name2) => {
     return name1.length >= 2 && name2.length >= 2 && name1 !== name2;
 };
+/**
+ * שומר את הגדרות המשחק ב-SessionStorage להעברה בין דפים.
+ * @param {Object} config - אובייקט הגדרות המשחק.
+ */
+export const saveGameData = (config) => {
+    sessionStorage.setItem('gameSettings', JSON.stringify(config));
+};
