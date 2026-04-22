@@ -27,4 +27,21 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.classList.add('active');
         });
     });
-    
+
+    /**
+     * מטפל באירוע שליחת הטופס.
+     * מבצע אימות שמות, שמירה לזיכרון ומעבר לדף המשחק.
+     * @param {Event} event - אובייקט האירוע של שליחת הטופס.
+     */
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // מניעת רענון הדף
+
+        const name1 = document.querySelector('#p1').value.trim();
+        const name2 = document.querySelector('#p2').value.trim();
+
+        if (validatePlayers(name1, name2)) {
+            const config = {
+                player1: name1,
+                player2: name2,
+                level: selectedLevel
+            };
