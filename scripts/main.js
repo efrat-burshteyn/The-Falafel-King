@@ -45,3 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 player2: name2,
                 level: selectedLevel
             };
+    saveGameData(config);
+
+            // מעבר לדף המשחק
+            window.location.href = `pages/game.html?level=${selectedLevel}`;
+        } else {
+            errorDiv.textContent = "השמות חייבים להיות שונים ובני 2 תווים לפחות.";
+        }
+    });
+});
