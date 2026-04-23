@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * @returns {void}
      */
     const navigateToHome = () => {
-        window.location.href = '../index.html';
+        window.location.href = '../enter.html';
     };
 
     // בדיקה שהאלמנט קיים לפני הצמדת המאזין
