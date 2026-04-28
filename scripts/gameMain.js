@@ -109,5 +109,18 @@ const renderKing = (king, player) => {
     // הוספה למסך
     kingsContainer.appendChild(img);
 };
-
+/**
+ * מעדכנת את שמות השחקנים המוצגים על הלוח.
+ * הפונקציה שולפת את השמות שנשמרו בזיכרון הדפדפן (sessionStorage) 
+ * ומזריקה אותם לאלמנטים המתאימים ב-HTML.
+ */
+const updateNames = () => {
+    // שליכת השמות ששמורים ב-SessionStorage 
+    //אם נכנסו לא תקין יהיה במקום שם NULL-ריק יהיה  שחקן1 ושחקן2
+    const p1 = sessionStorage.getItem('p1Name') || "שחקן 1";
+    const p2 = sessionStorage.getItem('p2Name') || "שחקן 2";
+    
+    document.getElementById('p1Name').textContent = p1;
+    document.getElementById('p2Name').textContent = p2;
+};
 
