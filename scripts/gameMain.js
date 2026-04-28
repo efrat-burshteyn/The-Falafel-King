@@ -3,11 +3,11 @@
  * @author [Efrat Burshteyn]
  */
 /**יבוא הפונקציות */
-import { createDeck, shuffle, drawCard,createKindsDeck } from './gameLogic.js';
+import { createDeck, shuffle, drawCard,createKingsDeck } from './gameLogic.js';
 
 let deck=[];
 let usedCards=[];
-let kindsCards=[];
+let kingsCards=[];
 let card;
 let player=0;
 /**
@@ -18,11 +18,11 @@ let player=0;
 const initGame=()=>{
     deck=createDeck();
     shuffle(deck);
-    kindsCards=createKindsDeck();
+    kingsCards=createKingsDeck();
     player=0;
 }
 /**אוביקט של מערכי לוחות השחחקנים לכל שחקן דוכם רכיבין ומערך לכרטיסי המלך */
-let playersBoards=[{ingredients:[],kinds:[]},{ingredients:[],kinds:[]}];
+let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
 
 /**
  * מטפלת בלוגיקה של שליפת קלף מהקופה ועדכון לוח השחקן.
@@ -39,8 +39,9 @@ const handleDraw=()=>{
               usedCards.push(card);
     else{
          playersBoards[player].ingredients.push(card);
+         renderCard(card,player);
          if(playersBoards[player].ingredients.length===7){
-             playersBoards[player].kinds.push(kindsCards.pop());
+             playersBoards[player].kings.push(kindsCards.pop());
              clearBoard(playersBoards[player].ingredients);
          }
     }
@@ -80,7 +81,7 @@ const handleDraw=()=>{
     const stand = document.getElementById(`p${player + 1}Stand`);
     const img = document.createElement('img');
     
-    img.src = `pictures/${cardName}.png`; 
+    img.src = `pictures/${card}.png`; 
     
     // 1. הוספת ה-Alt (הסבר על התמונה)
     img.alt = card; 

@@ -3,10 +3,10 @@
  * @author [Efrat Burshteyn]
  */
  /**מערך סוגי הקלפים */
-const ingredients=['chips','falafel','humus','pickles','pita','salad','tahini','broken pita','kind'];
+const ingredients=['chips','falafel','humus','pickles','pita','salad','tahini','broken pita','king'];
  /**מערך קלפי המשחק */
 let deck=[];
-let kindsDeck=[];
+let kingsDeck=[];
 /**
  * יוצרת את חפיסת הקלפים למשחק.
  * הפונקציה ממלאת את המערך ב-20 עותקים מכל מרכיב תקין,
@@ -35,10 +35,10 @@ export const createDeck = () =>{
  * הפונקציה ממלאת מערך ייעודי ב-20 קלפי מלך מתוך רשימת המרכיבים,
  * אותם השחקן יוכל לקבל רק לאחר השלמת מנה מלאה.
  */
-   export const createKindsDeck=()=>{
+   export const createKingsDeck=()=>{
      let z=8
     for(let i=0; i<20; i++)
-        kindsDeck.push(ingredients[z])
+        kingsDeck.push(ingredients[z])
    }
     
 
