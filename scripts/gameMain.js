@@ -73,8 +73,8 @@ const handleDraw=()=>{
  }
 /**
  * מציירת (מרנדרת) את הקלף על המסך.
- * @param {string} cardName - שם הקלף (למשל: 'pita')
- * @param {number} playerIdx - איזה שחקן קיבל את הקלף (0 או 1)
+ * @param {string} card - שם הקלף (למשל: 'pita')
+ * @param {number} player - איזה שחקן קיבל את הקלף (0 או 1)
  */
  const renderCard = (card, player) => {
     const stand = document.getElementById(`p${player + 1}Stand`);
