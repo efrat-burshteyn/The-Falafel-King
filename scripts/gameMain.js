@@ -90,5 +90,21 @@ const handleDraw=()=>{
     img.classList.add('card-style'); 
     stand.appendChild(img);
 };
-
+/**
+ * מציגה את קלף המלך שהשחקן זכה בו באזור המלכים שלו.
+ * @param {string} king -  קלף המלך.
+ * @param {number} player - אינדקס השחקן (0 או 1).
+ */
+const renderKing = (king, player) => {
+    //  מציאת אזור רשימת המלכים (לפי ה-ID ב-HTML : p1KingsList / p2KingsList)
+    const kingsContainer = document.getElementById(`p${player + 1}KingsList`);
+    //  יצירת אלמנט התמונה
+    const img = document.createElement('img');
+    img.src = `pictures/${king}.png`; 
+    img.alt = "מלך הפלאפל";
+    //  הוספת עיצוב מיוחד למלכים 
+    img.classList.add('king-card-style'); 
+    // הוספה למסך
+    kingsContainer.appendChild(img);
+};
 
