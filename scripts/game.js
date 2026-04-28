@@ -1,5 +1,5 @@
  /**
- * @fileoverview פונקציות עזר לניהול נתוני המשחק.
+ * @fileoverview פונקציות עזר לניהול המשחק.
  * @author [Efrat Burshteyn]
  */
  /**מערך סוגי הקלפים */
@@ -27,5 +27,16 @@ export const createDeck = () =>{
     else{
       for(let i=0;i<16;i++)
         deck[k++]=ingredients[t];  
+    }
+}
+/**
+ * מערבבת את חפיסת הקלפים.
+ * הפונקציה עוברת על כל איברי המערך ומחליפה כל איבר עם איבר במיקום אקראי.
+ * @param {Array} deck - מערך קלפי המשחק.
+ */
+export const shuffle=(deck)=>{
+    for(let i=0; i<deck.length; i++){
+        const j=Math.floor(Math.random()*deck.length);
+        [deck[i],deck[j]]= [deck[j],deck[i]];   
     }
 }
