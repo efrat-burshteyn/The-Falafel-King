@@ -1,3 +1,7 @@
+ /**
+ * @fileoverview פונקציות עזר לניהול נתוני המשחק.
+ * @author [Efrat Burshteyn]
+ */
  /**מערך סוגי הקלפים */
 const ingredients=['chips','falafel','humus','pickles','pita','salad','tahini','broken pita'];
  /**מערך קלפי המשחק */
