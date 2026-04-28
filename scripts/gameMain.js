@@ -34,15 +34,17 @@ let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
 const handleDraw=()=>{
    card=drawCard()
    if(card==='broken pita')
-       clearBoard(playersBoards[player].ingredients);
+       clearBoard(player);
     else if(playersBoards[player].ingredients.includes(card))
               usedCards.push(card);
     else{
          playersBoards[player].ingredients.push(card);
          renderCard(card,player);
          if(playersBoards[player].ingredients.length===7){
-             playersBoards[player].kings.push(kindsCards.pop());
-             clearBoard(playersBoards[player].ingredients);
+             clearBoard(player);
+             const kingCard=kingsCards.pop()
+              playersBoards[player].kings.push(kingCard);
+             renderKing(kingCard,player);
          }
     }
     switchTurn();
@@ -107,4 +109,5 @@ const renderKing = (king, player) => {
     // הוספה למסך
     kingsContainer.appendChild(img);
 };
+
 
