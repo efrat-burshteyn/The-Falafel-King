@@ -71,8 +71,8 @@ const handleDraw=()=>{
  */
  const clearBoard=(player)=>{
     playersBoards[player].ingredients=[];
-    const standId = `p${player + 1}Stand`;
-    document.getElementById(standId).innerHTML = '';
+    const standId = document.getElementById(`p${player + 1}Stand`);
+    standId.textContent = '';
  }
 /**
  * מציירת (מרנדרת) את הקלף על המסך.
