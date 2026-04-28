@@ -51,5 +51,18 @@ const handleDraw=()=>{
  * הפונקציה מעדכנת את המשתנה הלוגי player ומחליפה את העיצוב הוויזואלי
  * כדי לסמן לשחקנים מי השחקן הפעיל כעת.
  */
+ const switchTurn=()=>{
+    //זו הדרך לבנות את השם. מכיוון שב-HTML  id="player1", 
+    //  מחברים את המילה "player" עם המספר (0+1 או 1+1).
+    document.getElementById(`player${player + 1}`).classList.remove('active-turn');
+    if(player===0)
+        player=1;
+    else player=0;
+    //  הוספת מחלקת העיצוב לשחקן החדש שתורו כעת
+    //  ומוסיף לו את הסטייל
+    document.getElementById(`player${player + 1}`).classList.add('active-turn');
+ }
+
  
+
 
