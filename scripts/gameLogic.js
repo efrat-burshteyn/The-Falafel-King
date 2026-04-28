@@ -3,9 +3,10 @@
  * @author [Efrat Burshteyn]
  */
  /**מערך סוגי הקלפים */
-const ingredients=['chips','falafel','humus','pickles','pita','salad','tahini','broken pita'];
+const ingredients=['chips','falafel','humus','pickles','pita','salad','tahini','broken pita','kind'];
  /**מערך קלפי המשחק */
-const deck=[];
+let deck=[];
+let kindsDeck=[];
 /**
  * יוצרת את חפיסת הקלפים למשחק.
  * הפונקציה ממלאת את המערך ב-20 עותקים מכל מרכיב תקין,
@@ -20,15 +21,25 @@ export const createDeck = () =>{
         deck[k++]=ingredients[j];
     }
 }
-    let kindCard=0;
+    let brokenCard=0;
     if(level==='easy')
-         kindCard=8;
+         brokenCard=8;
     else{
-        kindCard=16
+        brokenCard=16
         }
-    } 
-    for(let i=0;i<kindCard;i++)
+        for(let i=0;i<brokenCard;i++)
         deck.push(ingredients[t]);
+    } 
+    /**
+ * יוצרת את חפיסת "מלכי הפלאפל" (המיוחדים).
+ * הפונקציה ממלאת מערך ייעודי ב-20 קלפי מלך מתוך רשימת המרכיבים,
+ * אותם השחקן יוכל לקבל רק לאחר השלמת מנה מלאה.
+ */
+   export const createKindsDeck=()=>{
+     let z=8
+    for(let i=0; i<20; i++)
+        kindsDeck.push(ingredients[z])
+   }
     
 
 /**
