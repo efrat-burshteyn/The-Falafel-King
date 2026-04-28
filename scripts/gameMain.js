@@ -62,7 +62,15 @@ const handleDraw=()=>{
     //  ומוסיף לו את הסטייל
     document.getElementById(`player${player + 1}`).classList.add('active-turn');
  }
-
+/**
+ * מנקה את הדוכן של השחקן הנוכחי.
+ * @param {number} player - אינדקס השחקן (0 או 1).
+ */
+ const clearBoard=(player)=>{
+    playersBoards[player].ingredients=[];
+    const standId = `p${player + 1}Stand`;
+    document.getElementById(standId).innerHTML = '';
+ }
  
 
 
