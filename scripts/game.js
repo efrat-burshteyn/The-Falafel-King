@@ -40,3 +40,12 @@ export const shuffle=(deck)=>{
         [deck[i],deck[j]]= [deck[j],deck[i]];   
     }
 }
+/**
+ * שולפת ומחזירה את הקלף האחרון מהחפיסה.
+ * הפונקציה מקצרת את המערך ב-1 בכל שליפה.
+ * @param {Array} deck - מערך קלפי המשחק.
+ * @returns {string} - שם המרכיב שנשלף (למשל: 'chips').
+ */
+export const drawCard = (deck) =>{
+    return deck.pop();
+}
