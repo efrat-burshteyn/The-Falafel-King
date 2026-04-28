@@ -71,6 +71,23 @@ const handleDraw=()=>{
     const standId = `p${player + 1}Stand`;
     document.getElementById(standId).innerHTML = '';
  }
- 
+/**
+ * מציירת (מרנדרת) את הקלף על המסך.
+ * @param {string} cardName - שם הקלף (למשל: 'pita')
+ * @param {number} playerIdx - איזה שחקן קיבל את הקלף (0 או 1)
+ */
+ const renderCard = (card, player) => {
+    const stand = document.getElementById(`p${player + 1}Stand`);
+    const img = document.createElement('img');
+    
+    img.src = `pictures/${cardName}.png`; 
+    
+    // 1. הוספת ה-Alt (הסבר על התמונה)
+    img.alt = card; 
+    
+    // 2. הוספת ה-Class (חיבור ל-CSS לעיצוב)
+    img.classList.add('card-style'); 
+    stand.appendChild(img);
+};
 
 
