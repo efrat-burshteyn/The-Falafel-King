@@ -20,15 +20,16 @@ export const createDeck = () =>{
         deck[k++]=ingredients[j];
     }
 }
-    if(level==='easy'){
-    for(let i=0;i<8;i++)
-        deck[k++]=ingredients[t];
-    }
+    if(level==='easy')
+        let kindCard=8;
     else{
-      for(let i=0;i<16;i++)
-        deck[k++]=ingredients[t];  
-    }
-}
+        kindCard=16
+        }
+    } 
+    for(let i=0;i<kindCard;i++)
+        deck.push(ingredients[t]);
+    
+
 /**
  * מערבבת את חפיסת הקלפים.
  * הפונקציה עוברת על כל איברי המערך ומחליפה כל איבר עם איבר במיקום אקראי.
