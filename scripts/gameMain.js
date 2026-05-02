@@ -177,7 +177,7 @@ const determineWinnerByKings = (reason) => {
 
     let finalMessage = "";
 
-    // בדיקה האם הסיום הוא בגלל זמן (כאן נכנסת הלוגיקה של איפוס/תיקו)
+    // בדיקה האם הסיום הוא בגלל זמן
     if (reason === "נגמר הזמן") {
         finalMessage = "הזמן תם! לא נקבע מנצח והתוצאות התאפסו.";
     } 
@@ -185,9 +185,11 @@ const determineWinnerByKings = (reason) => {
     else {
         finalMessage = reason + " ";
         if (k1 > k2) {
+            sndClapping.play();
             finalMessage += `המנצח הוא ${name1} עם ${k1} מלכים!`;
             saveToHighScores(name1, k1);
         } else if (k2 > k1) {
+            sndClapping.play();
             finalMessage += `המנצח הוא ${name2} עם ${k2} מלכים!`;
             saveToHighScores(name2, k2);
         } else {
@@ -197,6 +199,40 @@ const determineWinnerByKings = (reason) => {
 
     // שליחה לפונקציית התצוגה הסופית
     endGame(finalMessage);
+};
+/**
+ * מנהלת את טיימר הספירה לאחור של המשחק.
+ * הפונקציה מעדכנת את התצוגה בכל שנייה, משמיעה התראה קולית ב-10 השניות האחרונות,
+ * ומפעילה את תהליך סיום המשחק כאשר הזמן אוזל.
+ * 
+ * @param {number} seconds - מספר השניות לספירה לאחור (למשל 300 עבור 5 דקות).
+ */
+const startTimer = (seconds) => {
+    let timeLeft = seconds;
+
+    // איפוס טיימר קודם אם קיים
+    if (timeInterval) clearInterval(timeInterval);
+
+    timeInterval = setInterval(() => {
+        timeLeft--;
+
+        const timerDisplay = document.getElementById('timer');
+        if (timerDisplay) {
+            timerDisplay.textContent = `זמן נותר: ${timeLeft}`;
+        }
+
+        // השמעת צליל ב-10 השניות האחרונות
+        if (timeLeft <= 10 && timeLeft > 0) {
+            sndTimeFinish.currentTime = 0;
+            sndTimeFinish.play();
+        }
+
+        // סיום המשחק כשהזמן נגמר
+        if (timeLeft <= 0) {
+            clearInterval(timeInterval);
+            determineWinnerByKings("נגמר הזמן");
+        }
+    }, 1000);
 };
 /**
  * מתניעה את תהליך המשחק.
