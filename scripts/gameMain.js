@@ -150,4 +150,38 @@ const endGame=(massage)=>{
         drawPile.style.pointerEvents = 'none';
     }
 };
+/**
+ * פונקציה המכריעה את תוצאת המשחק ובודקת האם יש מנצח או איפוס.
+ * @param {string} reason - סיבת הסיום (זמן או קלפים).
+ */
+const determineWinnerByKings = (reason) => {
+    // שליפת נתוני השחקנים
+    const k1 = playersBoards[0].kings.length;
+    const k2 = playersBoards[1].kings.length;
+    const name1 = document.getElementById('p1Name').textContent;
+    const name2 = document.getElementById('p2Name').textContent;
+
+    let finalMessage = "";
+
+    // בדיקה האם הסיום הוא בגלל זמן (כאן נכנסת הלוגיקה של איפוס/תיקו)
+    if (reason === "נגמר הזמן") {
+        finalMessage = "הזמן תם! לא נקבע מנצח והתוצאות התאפסו.";
+    } 
+    // במידה והסיום הוא בגלל שנגמרו הקלפים - מחשבים מנצח
+    else {
+        finalMessage = reason + " ";
+        if (k1 > k2) {
+            finalMessage += `המנצח הוא ${name1} עם ${k1} מלכים!`;
+            saveToHighScores(name1, k1);
+        } else if (k2 > k1) {
+            finalMessage += `המנצח הוא ${name2} עם ${k2} מלכים!`;
+            saveToHighScores(name2, k2);
+        } else {
+            finalMessage += "תיקו! לשני השחקנים מספר זהה של מלכים.";
+        }
+    }
+
+    // שליחה לפונקציית התצוגה הסופית
+    endGame(finalMessage);
+};
 
