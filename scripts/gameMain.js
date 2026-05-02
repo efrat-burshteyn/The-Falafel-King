@@ -91,13 +91,17 @@ const handleDraw=()=>{
     document.getElementById(`player${player + 1}`).classList.add('active-turn');
  }
 /**
- * מנקה את הדוכן של השחקן הנוכחי.
+ * מנקה את הדוכן ואת רשימת המלכים של השחקן.
+ * הפונקציה מאפסת את המערכים הלוגיים ומנקה את האלמנטים הוויזואליים ב-HTML.
  * @param {number} player - אינדקס השחקן (0 או 1).
  */
  const clearBoard=(player)=>{
     playersBoards[player].ingredients=[];
+    playersBoards[player].kings = [];
     const standId = document.getElementById(`p${player + 1}Stand`);
     standId.textContent = '';
+    const kingsContainer = document.getElementById(`p${player + 1}KingsList`);
+    kingsContainer.textContent = '';
  }
 /**
  * מציירת (מרנדרת) את הקלף על המסך.
