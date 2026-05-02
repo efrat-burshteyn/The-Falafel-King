@@ -25,4 +25,30 @@ const renderScores = () => {
         emptyRow.appendChild(emptyCell);
         tableBody.appendChild(emptyRow);
         return;
-    }
+    };
+    //  הוספת שורות  textContent 
+    records.forEach((record, index) => {
+        const row = document.createElement('tr');
+
+        // יצירת תאים והכנסת טקסט נקי
+        const cellRank = document.createElement('td');
+        cellRank.textContent = index + 1;
+
+        const cellName = document.createElement('td');
+        cellName.textContent = record.userName;
+
+        const cellScore = document.createElement('td');
+        cellScore.textContent = record.userScore;
+
+        const cellDate = document.createElement('td');
+        cellDate.textContent = record.date;
+
+        // חיבור התאים לשורה
+        row.appendChild(cellRank);
+        row.appendChild(cellName);
+        row.appendChild(cellScore);
+        row.appendChild(cellDate);
+        // חיבור השורה לטבלה
+        tableBody.appendChild(row);
+    });
+};
