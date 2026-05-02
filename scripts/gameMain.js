@@ -250,8 +250,9 @@ const startGame = () => {
     //  הפעלת הטיימר
     startTimer(300); 
     
-    //  סימון השחקן הראשון כפעיל
+    //   סימון השחקן הראשון כפעיל והשני כלא פעיל
     document.getElementById('player1').classList.add('active-turn');
+    document.getElementById('player2').classList.remove('active-turn');
     
     //  פתיחת האפשרות ללחוץ על הערימה
     document.getElementById('drawPile').style.pointerEvents = 'auto';
