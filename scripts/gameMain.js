@@ -10,6 +10,7 @@ let usedCards=[];
 let kingsCards=[];
 let card;
 let player=0;
+let timeInterval;
 /**
  * פונקציית האתחול של המשחק.
  * יוצרת את החפיסת הקלפים, מערבבת אותה ויוצרת את חפיסת קלפי המלכים ומכינה את המשתנים לתחילת המשחק.
@@ -122,5 +123,31 @@ const updateNames = () => {
     
     document.getElementById('p1Name').textContent = p1;
     document.getElementById('p2Name').textContent = p2;
+};
+/**
+ * פונקציה המבצעת את סגירת המשחק מבחינה לוגית וויזואלית.
+ * @param {string} message - ההודעה שתופיע למשתמש בחלון סיום המשחק.
+ */
+const endGame=(massage)=>{
+    //אם נגמר הזמן:
+    // עצירת פעולת הטיימר
+    if(timeInterval)
+        clearInterval(timeInterval);
+    // עדכון תוכן ההודעה במודל
+    const winnerInfo = document.getElementById('winnerInfo');
+    if (winnerInfo) {
+        winnerInfo.textContent = message;
+    };
+    // הצגת חלון סיום המשחק
+    const modal = document.getElementById('endGameModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+
+    // ניטרול אפשרות לחיצה על ערימת המשיכה
+    const drawPile = document.getElementById('drawPile');
+    if (drawPile) {
+        drawPile.style.pointerEvents = 'none';
+    }
 };
 
