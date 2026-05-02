@@ -16,11 +16,12 @@ let kingsDeck=[];
 export const createDeck = () =>{
     let k=0,t=7;
     const level=sessionStorage.getItem('selectedLevel');
+    deck=[];
   for(let i=0; i<20; i++){
         for(let j=0; j<7; j++ ){
         deck[k++]=ingredients[j];
     }
-}
+    }
     let brokenCard=0;
     if(level==='easy')
          brokenCard=8;
@@ -36,7 +37,8 @@ export const createDeck = () =>{
  * אותם השחקן יוכל לקבל רק לאחר השלמת מנה מלאה.
  */
    export const createKingsDeck=()=>{
-     let z=8
+     let z=8;
+     kingsDeck=[];
     for(let i=0; i<20; i++)
         kingsDeck.push(ingredients[z])
    }
@@ -71,7 +73,7 @@ const saveToHighScores = (name, score) => {
     // שליפת נתונים קיימים מהאחסון המקומי
     const rawData = localStorage.getItem('falafelHighScores');
     
-    // המרת הנתונים למערך או יצירת מערך חדש אם אין נתונים
+    // המרת הנתונים למערך -parseאו יצירת מערך חדש אם אין נתונים
     const records = rawData ? JSON.parse(rawData) : [];
 
     // יצירת אובייקט עם נתוני המנצח והתאריך הנוכחי
