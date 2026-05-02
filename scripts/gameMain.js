@@ -11,6 +11,11 @@ let kingsCards=[];
 let card;
 let player=0;
 let timeInterval;
+//הגדרת הצלילם sounds
+const sndStart = new Audio('sounds/start.mp3');      // צליל התחלה
+const sndTornPita = new Audio('sounds/broken pita.mp3');    // צליל פיתה קרועה
+const sndVictory = new Audio('sounds/clapping.mp3');  // צליל ניצחון
+const sndTimeFinish = new Audio('sounds/time finish.mp3');  // צליל תקתוק (עבור ה-10 שניות)
 /**
  * פונקציית האתחול של המשחק.
  * יוצרת את החפיסת הקלפים, מערבבת אותה ויוצרת את חפיסת קלפי המלכים ומכינה את המשתנים לתחילת המשחק.
