@@ -61,4 +61,29 @@ export const shuffle=(deck)=>{
  */
 export const drawCard = (deck) =>{
     return deck.pop();
-}
+};
+/**
+ * פונקציה השומרת את נתוני המנצח בזיכרון המקומי.
+ * @param {string} name - שם השחקן המנצח.
+ * @param {number} score - מספר המלכים שצבר.
+ */
+const saveToHighScores = (name, score) => {
+    // שליפת נתונים קיימים מהאחסון המקומי
+    const rawData = localStorage.getItem('falafelHighScores');
+    
+    // המרת הנתונים למערך או יצירת מערך חדש אם אין נתונים
+    const records = rawData ? JSON.parse(rawData) : [];
+
+    // יצירת אובייקט עם נתוני המנצח והתאריך הנוכחי
+    const newRecord = {
+        userName: name,
+        userScore: score,
+        date: new Date().toLocaleDateString()
+    };
+
+    // הוספת הרשומה החדשה לרשימה
+    records.push(newRecord);
+
+    // שמירה חזרה לזיכרון המקומי בפורמט טקסטואלי (JSON)
+    localStorage.setItem('falafelHighScores', JSON.stringify(records));
+};
