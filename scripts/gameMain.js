@@ -17,10 +17,16 @@ const sndbrokenPita = new Audio('sounds/broken pita.mp3');    // צליל פית
 const sndClapping = new Audio('sounds/clapping.mp3');  // צליל ניצחון
 const sndTimeFinish = new Audio('sounds/time finish.mp3');  // צליל תקתוק (עבור ה-10 שניות)
 
+const btnStart = document.getElementById('btnStart'); 
+const drawPile = document.getElementById('drawPile');
+
 btnStart.addEventListener('click', () => {
     sndStart.currentTime = 0; 
     sndStart.play();
     startGame(); 
+});
+drawPile.addEventListener('click', () => {
+    handleDraw();
 });
 /**
  * פונקציית האתחול של המשחק.
@@ -45,6 +51,10 @@ let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
  */
 const handleDraw=()=>{
    card=drawCard()
+   if (!card) {
+       determineWinnerByKings("נגמרו הקלפים בחפיסה!");
+       return; 
+   }
    if(card==='broken pita'){
        sndbrokenPita.currentTime = 0;
        sndbrokenPita.play();
