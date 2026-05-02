@@ -16,6 +16,7 @@ const sndStart = new Audio('sounds/start.mp3');      // צליל התחלה
 const sndbrokenPita = new Audio('sounds/broken pita.mp3');    // צליל פיתה קרועה
 const sndClapping = new Audio('sounds/clapping.mp3');  // צליל ניצחון
 const sndTimeFinish = new Audio('sounds/time finish.mp3');  // צליל תקתוק (עבור ה-10 שניות)
+
 btnStart.addEventListener('click', () => {
     sndStart.currentTime = 0; 
     sndStart.play();
@@ -197,4 +198,20 @@ const determineWinnerByKings = (reason) => {
     // שליחה לפונקציית התצוגה הסופית
     endGame(finalMessage);
 };
-
+const startGame = () => {
+    initGame(); 
+    updateNames();
+    
+    //  איפוס הלוחות הוויזואליים (ניקוי הדוכנים)
+    clearBoard(0);
+    clearBoard(1);
+    
+    //  הפעלת הטיימר
+    startTimer(300); 
+    
+    //  סימון השחקן הראשון כפעיל
+    document.getElementById('player1').classList.add('active-turn');
+    
+    //  פתיחת האפשרות ללחוץ על הערימה
+    document.getElementById('drawPile').style.pointerEvents = 'auto';
+};
