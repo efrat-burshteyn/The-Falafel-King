@@ -38,7 +38,9 @@ const initGame=()=>{
     shuffle(deck);
     kingsCards=createKingsDeck();
     player=0;
+    playersBoards = [{ingredients:[], kings:[]}, {ingredients:[], kings:[]}];
 }
+
 /**אוביקט של מערכי לוחות השחחקנים לכל שחקן דוכם רכיבין ומערך לכרטיסי המלך */
 let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
 
