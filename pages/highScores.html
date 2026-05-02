@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="he">
+<head dir="rtl">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת שיאים - ניהול נתונים</title>
+</head>
+<body>
+  <div class="main-container">
+        <header>
+            <h1>לוח תוצאות ושיאים</h1>
+        </header>
+
+        <section class="table-section">
+            <table id="highScoresTable">
+                <thead>
+                    <tr>
+                        <th>דירוג</th>
+                        <th>שם משתמש</th>
+                        <th>כמות קלפי מלך</th>
+                        <th>תאריך המשחק</th>
+                    </tr>
+                </thead>
+                <tbody id="highScoresBody">
+                    <!-- הנתונים יוזנו באופן דינמי -->
+                </tbody>
+            </table>
+        </section>
+
+        <nav class="navigation-menu">
+            <button id="btnHome" class="menu-button">חזרה לתפריט ראשי</button>
+        </nav>
+    </div>
+
+    <script src="highScores.js"></script>  
+</body>
+</html>
