@@ -54,19 +54,40 @@ export const renderInitialDeck = () => {
     }
 };
 /**
- * פונקציית האתחול של המשחק.
- * יוצרת את החפיסת הקלפים, מערבבת אותה ויוצרת את חפיסת קלפי המלכים ומכינה את המשתנים לתחילת המשחק.
-  *ועדכון השחקן הראשון כפעיל  
-  *ומאפסת את 
+ * מתחיל משחק חדש בצורה מלאה:
+ * מאפס מצב, יוצר חפיסות, מעדכן UI ומפעיל טיימר.
  */
-const initGame=()=>{
-    deck=createDeck();
+const startGame = () => {
+    resetGame(); // איפוס מלא של מצב המשחק
+
+    // יצירת חפיסות
+    deck = createDeck();
     shuffle(deck);
-    kingsCards=createKingsDeck();
-    player=0;
-    playersBoards = [{ingredients:[], kings:[]}, {ingredients:[], kings:[]}];
-    renderInitialDeck(); // הצגת ערימת המשיכה ההפוכה במרכז
-}
+    kingsCards = createKingsDeck();
+
+    playersBoards = [
+        { ingredients: [], kings: [] },
+        { ingredients: [], kings: [] }
+    ];
+
+    player = 0;
+
+    // UI
+    updateNames();
+    renderInitialDeck();
+    renderKingsBank();
+
+    // תור ראשון
+    document.getElementById('player1').classList.add('active-turn');
+    document.getElementById('player2').classList.remove('active-turn');
+
+    // טיימר
+    if (timeInterval) clearInterval(timeInterval);
+    startTimer(300);
+
+    // הפעלת משחק
+    document.getElementById('drawPile').style.pointerEvents = 'auto';
+};
 
 /**אוביקט של מערכי לוחות השחחקנים לכל שחקן דוכם רכיבין ומערך לכרטיסי המלך */
 let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
@@ -319,25 +340,7 @@ const startTimer = (seconds) => {
  * הפונקציה מאתחלת את הנתונים, מעדכנת את שמות השחקנים, מנקה את הלוחות הוויזואליים,
  *עוצרים את הטימר מפעילה את טיימר הספירה לאחור ומאפשרת אינטראקציה עם ערימת הקלפים.
  */
-const startGame = () => {
-    initGame(); 
-    document.getElementById('levelDisplay').textContent ; //  לפי משתנה
-    updateNames();
-    //  איפוס הלוחות הוויזואליים (ניקוי הדוכנים)
-    clearBoard(0);
-    clearBoard(1);
-    if (timeInterval) 
-        clearInterval(timeInterval);
-    //  הפעלת הטיימר
-    startTimer(300); 
-    
-    //   סימון השחקן הראשון כפעיל והשני כלא פעיל
-    document.getElementById('player1').classList.add('active-turn');
-    document.getElementById('player2').classList.remove('active-turn');
-    
-    //  פתיחת האפשרות ללחוץ על הערימה
-    document.getElementById('drawPile').style.pointerEvents = 'auto';
-};
+
 /**
  * מאזין לאירוע טעינת ה-DOM כדי להבטיח שהדף מוכן לפני תחילת הרינדור.
  */
