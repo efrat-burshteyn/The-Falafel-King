@@ -9,8 +9,10 @@ let deck=[];
 let usedCards=[];
 let kingsCards=[];
 let card;
+const kingCard;
 let player=0;
 let timeInterval;
+let floatingCard;
 //הגדרת הצלילם sounds
 const sndStart = new Audio('../sounds/start.mp3');      // צליל התחלה
 const sndbrokenPita = new Audio('../sounds/broken pita.mp3');    // צליל פיתה קרועה
@@ -55,6 +57,8 @@ const initGame=()=>{
     kingsCards=createKingsDeck();
     player=0;
     playersBoards = [{ingredients:[], kings:[]}, {ingredients:[], kings:[]}];
+    renderInitialDeck(); // הצגת ערימת המשיכה ההפוכה במרכז
+   startTimer(300);
 }
 
 /**אוביקט של מערכי לוחות השחחקנים לכל שחקן דוכם רכיבין ומערך לכרטיסי המלך */
@@ -66,13 +70,15 @@ let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
  * 1. פיתה קרועה: איפוס הדוכן של השחקן הנוכחי.
  * 2. כפילות: העברת הקלף לערימת המשומשים.
  * 3. רכיב חדש: הוספה לדוכן ובדיקת השלמת מנה (7 רכיבים) לקבלת מלך.
- */
+ *מציגה שניה ושמה איפה שצריך
+*/
 const handleDraw=()=>{
    card=drawCard(deck)
    if (!card) {
        determineWinnerByKings("נגמרו הקלפים בחפיסה!");
        return; 
    }
+
    if(card==='broken pita'){
        sndbrokenPita.currentTime = 0;
        sndbrokenPita.play();
@@ -84,12 +90,30 @@ const handleDraw=()=>{
          playersBoards[player].ingredients.push(card);
          renderCard(card,player);
          if(playersBoards[player].ingredients.length===7){
-             clearBoard(player);
-             const kingCard=kingsCards.pop()
-              playersBoards[player].kings.push(kingCard);
-             renderKing(kingCard,player);
+            clearBoard(player);
+            kingCard=kingsCards.pop()
+            playersBoards[player].kings.push(kingCard);
+            renderKing(kingCard,player);
          }
     }
+         const floating = document.getElementById("floatingCard");
+
+     // מנקים תוכן קודם בצורה בטוחה
+   floating.replaceChildren();
+
+  // יוצרים תמונה
+   const img = document.createElement("img");
+  img.src = `../pictures/${card}.png`;
+    img.className = "card-img";
+
+     // מוסיפים לקונטיינר
+    floating.appendChild(img);
+
+    floating.style.display = "block";
+
+    setTimeout(() => {
+       floating.style.display = "none";
+    }, 1000);
     switchTurn();
  }
  /**
@@ -132,10 +156,9 @@ const handleDraw=()=>{
     
     img.src = `../pictures/${card}.png`; 
     
-    // 1. הוספת ה-Alt (הסבר על התמונה)
+    //הוספת ה-Alt (הסבר על התמונה)
     img.alt = card; 
     
-    // 2. הוספת ה-Class (חיבור ל-CSS לעיצוב)
     img.classList.add('card-img'); 
     stand.appendChild(img);
 };
@@ -289,3 +312,9 @@ const startGame = () => {
     //  פתיחת האפשרות ללחוץ על הערימה
     document.getElementById('drawPile').style.pointerEvents = 'auto';
 };
+/**
+ * מאזין לאירוע טעינת ה-DOM כדי להבטיח שהדף מוכן לפני תחילת הרינדור.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    startGame(); //  קריאה לפונקציית האתחול 
+});
