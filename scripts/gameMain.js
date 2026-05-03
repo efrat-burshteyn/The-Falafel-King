@@ -83,9 +83,12 @@ const handleDraw=()=>{
        sndbrokenPita.currentTime = 0;
        sndbrokenPita.play();
        clearBoard(player);
+       
     }
-    else if(playersBoards[player].ingredients.includes(card))
+    else if(playersBoards[player].ingredients.includes(card)){
               usedCards.push(card);
+              renderUsedCard(card);
+            }
     else{
          playersBoards[player].ingredients.push(card);
          renderCard(card,player);
@@ -117,6 +120,19 @@ const handleDraw=()=>{
     switchTurn();
  }
  /**
+ * מציגה קלף שנזרק לערימת המשומשים (discard pile) בלוח המשחק.
+ * הפונקציה יוצרת אלמנט תמונה חדש לפי סוג הקלף,
+ * ומוסיפה אותו לאזור המשומשים על המסך.
+ * @param {string} card - שם הקלף שיש להציג (למשל: 'pita', 'chips')
+ */
+const renderUsedCard = (card) => {
+    const discard = document.getElementById("discardPile");
+    const img = document.createElement("img");
+    img.src = `../pictures/${card}.png`;
+    img.className = "card-img";
+    discard.appendChild(img);
+};
+ /**
  * פונקציה להחלפת תורות בין השחקנים.
  * הפונקציה מעדכנת את המשתנה הלוגי player ומחליפה את העיצוב הוויזואלי
  * כדי לסמן לשחקנים מי השחקן הפעיל כעת.
@@ -138,6 +154,7 @@ const handleDraw=()=>{
  * @param {number} player - אינדקס השחקן (0 או 1).
  */
  const clearBoard=(player)=>{
+    usedCards.push(...playersBoards[player].ingredients);
     playersBoards[player].ingredients=[];
     playersBoards[player].kings = [];
     const standId = document.getElementById(`p${player + 1}Stand`);
