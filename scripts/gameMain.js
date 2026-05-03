@@ -230,8 +230,10 @@ const renderKing = (king, player) => {
 const updateNames = () => {
     // שליכת השמות ששמורים ב-SessionStorage 
     //אם נכנסו לא תקין יהיה במקום שם NULL-ריק יהיה  שחקן1 ושחקן2
-    const p1 = sessionStorage.getItem('p1Name') || "שחקן 1";
-    const p2 = sessionStorage.getItem('p2Name') || "שחקן 2";
+      const gameSettings = JSON.parse(sessionStorage.getItem('gameSettings')) || {};
+
+    const p1 = gameSettings.player1 || "שחקן 1";
+    const p2 = gameSettings.player2 || "שחקן 2";
     
     document.getElementById('p1Name').textContent = p1;
     document.getElementById('p2Name').textContent = p2;
