@@ -9,7 +9,7 @@ let deck=[];
 let usedCards=[];
 let kingsCards=[];
 let card;
-const kingCard;
+let kingCard;
 let player=0;
 let timeInterval;
 let floatingCard;
@@ -58,7 +58,6 @@ const initGame=()=>{
     player=0;
     playersBoards = [{ingredients:[], kings:[]}, {ingredients:[], kings:[]}];
     renderInitialDeck(); // הצגת ערימת המשיכה ההפוכה במרכז
-   startTimer(300);
 }
 
 /**אוביקט של מערכי לוחות השחחקנים לכל שחקן דוכם רכיבין ומערך לכרטיסי המלך */
@@ -93,10 +92,10 @@ const handleDraw=()=>{
          playersBoards[player].ingredients.push(card);
          renderCard(card,player);
          if(playersBoards[player].ingredients.length===7){
-            clearBoard(player);
             kingCard=kingsCards.pop()
             playersBoards[player].kings.push(kingCard);
             renderKing(kingCard,player);
+             clearBoard(player);
          }
     }
          const floating = document.getElementById("floatingCard");
@@ -156,11 +155,8 @@ const renderUsedCard = (card) => {
  const clearBoard=(player)=>{
     usedCards.push(...playersBoards[player].ingredients);
     playersBoards[player].ingredients=[];
-    playersBoards[player].kings = [];
     const standId = document.getElementById(`p${player + 1}Stand`);
     standId.textContent = '';
-    const kingsContainer = document.getElementById(`p${player + 1}KingsList`);
-    kingsContainer.textContent = '';
  }
 /**
  * מציירת (מרנדרת) את הקלף על המסך.
@@ -214,7 +210,7 @@ const updateNames = () => {
  * פונקציה המבצעת את סגירת המשחק מבחינה לוגית וויזואלית.
  * @param {string} message - ההודעה שתופיע למשתמש בחלון סיום המשחק.
  */
-const endGame=(massage)=>{
+const endGame=(message)=>{
     //אם נגמר הזמן:
     // עצירת פעולת הטיימר
     if(timeInterval)
@@ -309,7 +305,7 @@ const startTimer = (seconds) => {
 /**
  * מתניעה את תהליך המשחק.
  * הפונקציה מאתחלת את הנתונים, מעדכנת את שמות השחקנים, מנקה את הלוחות הוויזואליים,
- * מפעילה את טיימר הספירה לאחור ומאפשרת אינטראקציה עם ערימת הקלפים.
+ *עוצרים את הטימר מפעילה את טיימר הספירה לאחור ומאפשרת אינטראקציה עם ערימת הקלפים.
  */
 const startGame = () => {
     initGame(); 
@@ -318,7 +314,8 @@ const startGame = () => {
     //  איפוס הלוחות הוויזואליים (ניקוי הדוכנים)
     clearBoard(0);
     clearBoard(1);
-    
+    if (timeInterval) 
+        clearInterval(timeInterval);
     //  הפעלת הטיימר
     startTimer(300); 
     
@@ -334,4 +331,19 @@ const startGame = () => {
  */
 document.addEventListener('DOMContentLoaded', () => {
     startGame(); //  קריאה לפונקציית האתחול 
+    document.getElementById("btnRestart").addEventListener("click", () => {
+    startGame();
+
+    // סגירת המודאל
+    document.getElementById("endGameModal").classList.add("hidden");
+});
+
+document.getElementById("btnClose").addEventListener("click", () => {
+    // סגירת המשחק (למשל חזרה לדף קודם)
+    window.location.href = "../index.html"; 
+});
+
+document.getElementById("btnLeaderboard").addEventListener("click", () => {
+    window.location.href = "../pages/leaderboard.html";
+});
 });
