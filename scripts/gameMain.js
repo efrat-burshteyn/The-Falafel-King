@@ -13,6 +13,7 @@ let kingCard;
 let player=0;
 let timeInterval;
 let floatingCard;
+
 //הגדרת הצלילם sounds
 const sndStart = new Audio('../sounds/start.mp3');      // צליל התחלה
 const sndbrokenPita = new Audio('../sounds/broken pita.mp3');    // צליל פיתה קרועה
@@ -21,7 +22,14 @@ const sndTimeFinish = new Audio('../sounds/time finish.mp3');  // צליל תק�
 
 const startBtn = document.getElementById('startBtn'); 
 const drawPile = document.getElementById('drawPile');
+const gameSettings = JSON.parse(sessionStorage.getItem('gameSettings'));
+const level = gameSettings?.level || "easy";
+const levelsText = {
+    easy: "קל",
+    hard: "קשה"
+};
 
+document.getElementById('levelDisplay').textContent = levelsText[level];
 
 drawPile.addEventListener('click', () => {
     handleDraw();
@@ -111,7 +119,8 @@ const handleDraw=()=>{
      // מוסיפים לקונטיינר
     floating.appendChild(img);
 
-    floating.style.display = "block";
+   floating.classList.remove("hidden");
+   floating.classList.add("hidden");
 
     setTimeout(() => {
        floating.style.display = "none";
@@ -148,7 +157,7 @@ const renderUsedCard = (card) => {
     document.getElementById(`player${player + 1}`).classList.add('active-turn');
  }
 /**
- * מנקה את הדוכן ואת רשימת המלכים של השחקן.
+ * מנקה את הדוכן של השחקן.
  * הפונקציה מאפסת את המערכים הלוגיים ומנקה את האלמנטים הוויזואליים ב-HTML.
  * @param {number} player - אינדקס השחקן (0 או 1).
  */
@@ -312,8 +321,8 @@ const startTimer = (seconds) => {
  */
 const startGame = () => {
     initGame(); 
+    document.getElementById('levelDisplay').textContent ; //  לפי משתנה
     updateNames();
-    renderInitialDeck();
     //  איפוס הלוחות הוויזואליים (ניקוי הדוכנים)
     clearBoard(0);
     clearBoard(1);
