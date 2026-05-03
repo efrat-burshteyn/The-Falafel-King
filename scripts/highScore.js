@@ -52,3 +52,9 @@ const renderScores = () => {
         tableBody.appendChild(row);
     });
 };
+const btnHome = document.getElementById('btnHome');
+if (btnHome) {
+    btnHome.addEventListener('click', () => {
+        window.location.href = '../enter.html'; // וודא שהשם והנתיב נכונים
+    });
+}
