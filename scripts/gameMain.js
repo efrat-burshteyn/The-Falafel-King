@@ -284,9 +284,12 @@ const startTimer = (seconds) => {
     timeInterval = setInterval(() => {
         timeLeft--;
 
-        const timerDisplay = document.getElementById('timer');
+        const timerDisplay = document.getElementById('timerDisplay');
         if (timerDisplay) {
-            timerDisplay.textContent = `זמן נותר: ${timeLeft}`;
+           const minutes = Math.floor(timeLeft / 60);
+           const seconds = timeLeft % 60;
+           timerDisplay.textContent = 
+            `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
 
         // השמעת צליל ב-10 השניות האחרונות
@@ -330,7 +333,6 @@ const startGame = () => {
  * מאזין לאירוע טעינת ה-DOM כדי להבטיח שהדף מוכן לפני תחילת הרינדור.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    startGame(); //  קריאה לפונקציית האתחול 
     document.getElementById("btnRestart").addEventListener("click", () => {
     startGame();
 
@@ -344,6 +346,6 @@ document.getElementById("btnClose").addEventListener("click", () => {
 });
 
 document.getElementById("btnLeaderboard").addEventListener("click", () => {
-    window.location.href = "../pages/leaderboard.html";
+    window.location.href = "../highScores.html";
 });
 });
