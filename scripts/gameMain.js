@@ -12,22 +12,37 @@ let card;
 let player=0;
 let timeInterval;
 //הגדרת הצלילם sounds
-const sndStart = new Audio('sounds/start.mp3');      // צליל התחלה
-const sndbrokenPita = new Audio('sounds/broken pita.mp3');    // צליל פיתה קרועה
-const sndClapping = new Audio('sounds/clapping.mp3');  // צליל ניצחון
-const sndTimeFinish = new Audio('sounds/time finish.mp3');  // צליל תקתוק (עבור ה-10 שניות)
+const sndStart = new Audio('../sounds/start.mp3');      // צליל התחלה
+const sndbrokenPita = new Audio('../sounds/broken pita.mp3');    // צליל פיתה קרועה
+const sndClapping = new Audio('../sounds/clapping.mp3');  // צליל ניצחון
+const sndTimeFinish = new Audio('../sounds/time finish.mp3');  // צליל תקתוק (עבור ה-10 שניות)
 
-const btnStart = document.getElementById('btnStart'); 
+const startBtn = document.getElementById('startBtn'); 
 const drawPile = document.getElementById('drawPile');
 
-btnStart.addEventListener('click', () => {
-    sndStart.currentTime = 0; 
-    sndStart.play();
-    startGame(); 
-});
+
 drawPile.addEventListener('click', () => {
     handleDraw();
 });
+/**
+ * פונקציה המציגה את ערימת המשיכה מיד עם תחילת המשחק.
+ */
+export const renderInitialDeck = () => {
+    const drawPile = document.querySelector('#drawPile');
+    
+    if (drawPile) {
+        while (drawPile.firstChild) {
+            drawPile.removeChild(drawPile.firstChild);
+        }
+
+        const backImg = document.createElement('img');
+    
+        backImg.src = '../pictures/back.png'; 
+        backImg.classList.add('card-img'); 
+        backImg.alt = "ערימת משיכה";
+        drawPile.appendChild(backImg);
+    }
+};
 /**
  * פונקציית האתחול של המשחק.
  * יוצרת את החפיסת הקלפים, מערבבת אותה ויוצרת את חפיסת קלפי המלכים ומכינה את המשתנים לתחילת המשחק.
@@ -53,7 +68,7 @@ let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
  * 3. רכיב חדש: הוספה לדוכן ובדיקת השלמת מנה (7 רכיבים) לקבלת מלך.
  */
 const handleDraw=()=>{
-   card=drawCard()
+   card=drawCard(deck)
    if (!card) {
        determineWinnerByKings("נגמרו הקלפים בחפיסה!");
        return; 
@@ -115,13 +130,13 @@ const handleDraw=()=>{
     const stand = document.getElementById(`p${player + 1}Stand`);
     const img = document.createElement('img');
     
-    img.src = `pictures/${card}.png`; 
+    img.src = `../pictures/${card}.png`; 
     
     // 1. הוספת ה-Alt (הסבר על התמונה)
     img.alt = card; 
     
     // 2. הוספת ה-Class (חיבור ל-CSS לעיצוב)
-    img.classList.add('card-style'); 
+    img.classList.add('card-img'); 
     stand.appendChild(img);
 };
 /**
@@ -134,7 +149,7 @@ const renderKing = (king, player) => {
     const kingsContainer = document.getElementById(`p${player + 1}KingsList`);
     //  יצירת אלמנט התמונה
     const img = document.createElement('img');
-    img.src = `pictures/${king}.png`; 
+    img.src = `../pictures/${king}.png`; 
     img.alt = "מלך הפלאפל";
     //  הוספת עיצוב מיוחד למלכים 
     img.classList.add('king-card-style'); 
@@ -259,7 +274,7 @@ const startTimer = (seconds) => {
 const startGame = () => {
     initGame(); 
     updateNames();
-    
+    renderInitialDeck();
     //  איפוס הלוחות הוויזואליים (ניקוי הדוכנים)
     clearBoard(0);
     clearBoard(1);
