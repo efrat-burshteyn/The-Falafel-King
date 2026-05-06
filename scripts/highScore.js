@@ -55,6 +55,9 @@ const renderScores = () => {
 const btnHome = document.getElementById('btnHome');
 if (btnHome) {
     btnHome.addEventListener('click', () => {
-        window.location.href = '../enter.html'; // וודא שהשם והנתיב נכונים
+        window.location.href = '../enter.html'; 
     });
-}
+};
+document.addEventListener('DOMContentLoaded', () => {
+    renderScores();
+});

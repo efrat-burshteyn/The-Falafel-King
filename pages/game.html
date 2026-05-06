@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" defer src="scripts/gameMain.js"></script>
+    <script type="module" defer src="../scripts/gameMain.js"></script>
+    <link rel="stylesheet" href="../styles/game.css">
     <title>מלך הפלפל- זירת המשחק</title>
 </head>
 <body>
     <main id="gameBoard">
         <header id="topBar">
-            <div class="stat-box">זמן נותר: <span id="timerDisplay">10:00</span></div>
+            <div class="stat-box">זמן נותר: <span id="timerDisplay">2:00</span></div>
             <div class="stat-box">רמת קושי: <span id="levelDisplay">---</span></div>
         </header>
         <section id="centerArea">
@@ -24,10 +25,10 @@
             </div>
 
             <div id="kingsGallery">
-                <h3>בנק מלכי הפלאפל</h3>
                 <div id="kingsBank"></div>
             </div>
         </section>
+        <div id="floatingCard" class="hidden"></div>
         <section id="playersContainer">
             <article class="player-zone" id="player1">
                 <h2 class="player-name" id="p1Name">שחקן 1</h2>

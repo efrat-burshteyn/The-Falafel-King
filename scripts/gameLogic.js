@@ -15,7 +15,7 @@ let kingsDeck=[];
  */
 export const createDeck = () =>{
     let k=0,t=7;
-    const level=sessionStorage.getItem('selectedLevel');
+    const level=sessionStorage.getItem('gameSettings');
     deck=[];
   for(let i=0; i<20; i++){
         for(let j=0; j<7; j++ ){
@@ -30,6 +30,7 @@ export const createDeck = () =>{
         }
         for(let i=0;i<brokenCard;i++)
         deck.push(ingredients[t]);
+    return deck;
     } 
     /**
  * יוצרת את חפיסת "מלכי הפלאפל" (המיוחדים).
@@ -40,7 +41,8 @@ export const createDeck = () =>{
      let z=8;
      kingsDeck=[];
     for(let i=0; i<20; i++)
-        kingsDeck.push(ingredients[z])
+        kingsDeck.push(ingredients[z]);
+    return kingsDeck;
    }
     
 
@@ -69,7 +71,7 @@ export const drawCard = (deck) =>{
  * @param {string} name - שם השחקן המנצח.
  * @param {number} score - מספר המלכים שצבר.
  */
-const saveToHighScores = (name, score) => {
+  export const saveToHighScores = (name, score) => {
     // שליפת נתונים קיימים מהאחסון המקומי
     const rawData = localStorage.getItem('falafelHighScores');
     

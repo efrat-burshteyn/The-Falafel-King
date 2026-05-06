@@ -54,3 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+startBtn.addEventListener('click', () => {
+    sndStart.currentTime = 0; 
+    sndStart.play();
+    startGame(); 
+});
