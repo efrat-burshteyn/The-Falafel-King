@@ -55,7 +55,7 @@ const renderScores = () => {
 const btnHome = document.getElementById('btnHome');
 if (btnHome) {
     btnHome.addEventListener('click', () => {
-        window.location.href = '../enter.html'; 
+        window.location.href = '../index.html'; 
     });
 };
 document.addEventListener('DOMContentLoaded', () => {

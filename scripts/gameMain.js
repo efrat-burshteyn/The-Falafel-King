@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.getElementById("btnClose").addEventListener("click", () => {
     // סגירת המשחק  חזרה לדף הכניסה)
-    window.location.href = "../enter.html"; 
+    window.location.href = "../index.html"; 
 });
 
 document.getElementById("btnLeaderboard").addEventListener("click", () => {
