@@ -1,49 +1,275 @@
-/* עיצוב זירת המשחק */
-body {
+/* ================= בסיס ================= */
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    /* שימוש בתמונת הרקע הייעודית למשחק */
-    background-image: url('../images/backgroundGame.jpg'); 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    box-sizing: border-box;
     direction: rtl;
-    color: #333;
+    font-family: Arial, sans-serif;
 }
 
-/* לוח המשחק המרכזי */
+body {
+    background: url('../pictures/backgroundGame.png') no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
+    color: #fff;
+}
+
+/* ================= לוח משחק ================= */
 #gameBoard {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     height: 100vh;
-    padding: 20px;
 }
 
-/* דוכני השחקנים - עיצוב נקי ומסודר */
-.stand {
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #8e44ad;
-    border-radius: 10px;
-    padding: 15px;
+/* ================= בר עליון ================= */
+#topBar {
     display: flex;
-    gap: 15px;
-    min-height: 160px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vh 2vw;
+    background: rgba(0,0,0,0.5);
+    font-size: clamp(14px, 1.5vw, 18px);
+    z-index: 10;
 }
 
-/* קלפי המרכיבים (פיתה, חומוס וכו') */
+.stat-box {
+    background: rgba(255,255,255,0.15);
+    padding: 0.6vh 1vw;
+    border-radius: 10px;
+}
+
+/* ================= מרכז ================= */
+#centerArea {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* ================= ערימות קלפים ================= */
+.deck-spot {
+    width: clamp(90px, 10vw, 140px);
+    height: clamp(120px, 14vw, 190px);
+
+    border-radius: 12px;
+    border: 2px dashed #fff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+    z-index: 5;
+}
+
+/* ================= מיקומי ערימות ================= */
+#drawPile {
+    left: 30%;
+    top: 40%;
+    transform: translate(2cm, -2cm);
+}
+
+#discardPile {
+    right: 30%;
+    top: 40%;
+    transform: translate(-2cm, -2cm);
+}
+
+.deck-spot:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+/* ================= קלפים ================= */
 .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ================= קלף צף ================= */
+#floatingCard {
+    position: fixed;
+    bottom: 30vh;
+    right: 45vw;
+    width: clamp(80px, 8vw, 120px);
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+}
+
+#floatingCard img {
+    width: 100%;
+    animation: floatCard 0.8s ease-in-out;
+}
+
+@keyframes floatCard {
+    0% { transform: scale(0.5) translateY(30px); opacity: 0; }
+    50% { transform: scale(1.1) translateY(-10px); opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* ================= שחקנים ================= */
+#playersContainer {
+    display: flex;
+    justify-content: space-around;
+    padding: 1vh;
+    background: rgba(0,0,0,0.35);
+    flex-wrap: wrap;
+}
+
+.player-zone {
+    width: min(45%, 500px);
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    padding: 1vh;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+}
+
+.active-turn {
+    border: 2px solid gold;
+    box-shadow: 0 0 20px gold;
+    transform: scale(1.02);
+}
+
+/* ================= דוכן ================= */
+.stand {
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5vw;
+    margin-top: 1vh;
+}
+
+.stand img {
+    width: clamp(40px, 5vw, 65px);
+    border-radius: 6px;
+    animation: cardPop 0.25s ease;
+}
+
+@keyframes cardPop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ================= מודאל ================= */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.modal-content {
+    background: #222;
+    padding: 4vh 4vw;
+    border-radius: 20px;
+    border: 2px solid gold;
+    text-align: center;
+}
+
+.modal-buttons button {
+    margin: 1vh;
+    padding: 1vh 2vw;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: gold;
+    font-weight: bold;
+}
+
+/* ================= מלכים ================= */
+.king-card-style {
+    width: 60px;
+    margin: 5px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px gold;
+    animation: kingPop 0.4s ease;
+}
+
+@keyframes kingPop {
+    from {
+        transform: scale(0.5) rotate(-10deg);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+/* ================= תיקון חשוב: ערימת משומשים יציבה ================= */
+#discardPile {
+    position: absolute;
+    overflow: hidden;
+}
+
+/* כל הקלפים יושבים בדיוק אחד על השני בלי שינוי פריסה */
+#discardPile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    transform: none;
+    transition: none;
+}
+/* ================= ערימת משומשים (יציבה לגמרי) ================= */
+#discardPile {
+    position: absolute;
+    overflow: hidden;
+}
+
+#discardPile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    transform: none;
+    transition: none;
+}
+
+/* ================= ערימת מלכים (אותו עיקרון בדיוק) ================= */
+#kingsBank {
+    position: absolute;
     width: 110px;
     height: 150px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    transition: transform 0.3s ease;
+
+    /* שמאלה 5 ס"מ + למטה 2 ס"מ */
+    transform: translate(-5cm, 2cm);
 }
 
-/* הדגשת תור פעיל */
-.active-player {
-    border: 4px solid #27ae60;
-    background: rgba(232, 245, 233, 0.95);
+/* קלפים בערימת מלכים */
+#kingsBank img {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    transform: none;
+    transition: none;
 }
