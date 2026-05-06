@@ -30,7 +30,9 @@ const levelsText = {
 };
 
 document.getElementById('levelDisplay').textContent = levelsText[level];
-
+/**
+ *  handleDraw מקשיבה ללחיצה על הערימה אם לחצו מפעילה את הפונקציה
+ */
 drawPile.addEventListener('click', () => {
     handleDraw();
 });
@@ -38,15 +40,11 @@ drawPile.addEventListener('click', () => {
  * פונקציה המציגה את ערימת המשיכה מיד עם תחילת המשחק.
  */
 export const renderInitialDeck = () => {
-    const drawPile = document.querySelector('#drawPile');
-    
     if (drawPile) {
         while (drawPile.firstChild) {
             drawPile.removeChild(drawPile.firstChild);
         }
-
         const backImg = document.createElement('img');
-    
         backImg.src = '../pictures/back.png'; 
         backImg.classList.add('card-img'); 
         backImg.alt = "ערימת משיכה";
@@ -58,33 +56,34 @@ export const renderInitialDeck = () => {
  * מאפס מצב, יוצר חפיסות, מעדכן UI ומפעיל טיימר.
  */
 const startGame = () => {
-    resetGame(); // איפוס מלא של מצב המשחק
-
+    const modal = document.getElementById('endGameModal');
+     modal.classList.add('hidden');
+     // 2. עצירת הטיימר הישן מיד (למניעת קפיצות של הודעת "נגמר הזמן")
+    if (timeInterval) {
+        clearInterval(timeInterval);
+        timeInterval=null
+    }
+        playersBoards = [
+        { ingredients: [], kings: [] },
+        { ingredients: [], kings: [] }
+    ];
+    clearBoardGame();
+      player = 0;
+    document.getElementById('winnerInfo').textContent = '';
+    document.getElementById('discardPile').replaceChildren();
     // יצירת חפיסות
     deck = createDeck();
     shuffle(deck);
     kingsCards = createKingsDeck();
-
-    playersBoards = [
-        { ingredients: [], kings: [] },
-        { ingredients: [], kings: [] }
-    ];
-
-    player = 0;
-
-    // UI
+    // תצוגה
     updateNames();
     renderInitialDeck();
-    renderKingsBank();
-
     // תור ראשון
     document.getElementById('player1').classList.add('active-turn');
     document.getElementById('player2').classList.remove('active-turn');
-
     // טיימר
     if (timeInterval) clearInterval(timeInterval);
-    startTimer(300);
-
+    startTimer(120)
     // הפעלת משחק
     document.getElementById('drawPile').style.pointerEvents = 'auto';
 };
@@ -106,12 +105,10 @@ const handleDraw=()=>{
        determineWinnerByKings("נגמרו הקלפים בחפיסה!");
        return; 
    }
-
    if(card==='broken pita'){
        sndbrokenPita.currentTime = 0;
        sndbrokenPita.play();
-       clearBoard(player);
-       
+       clearBoard(player);       
     }
     else if(playersBoards[player].ingredients.includes(card)){
               usedCards.push(card);
@@ -127,8 +124,7 @@ const handleDraw=()=>{
              clearBoard(player);
          }
     }
-         const floating = document.getElementById("floatingCard");
-
+ const floating = document.getElementById("floatingCard");
      // מנקים תוכן קודם בצורה בטוחה
    floating.replaceChildren();
 
@@ -140,8 +136,8 @@ const handleDraw=()=>{
      // מוסיפים לקונטיינר
     floating.appendChild(img);
 
+   floating.style.display = "block";
    floating.classList.remove("hidden");
-   floating.classList.add("hidden");
 
     setTimeout(() => {
        floating.style.display = "none";
@@ -188,6 +184,24 @@ const renderUsedCard = (card) => {
     const standId = document.getElementById(`p${player + 1}Stand`);
     standId.textContent = '';
  }
+
+/**
+ * מאפסת את כל התצוגה הוויזואלית של לוח המשחק.
+ * הפונקציה מנקה את כל האלמנטים הקשורים למצב המשחק הקודם מה־DOM:
+ * - דוכני השחקנים (הרכיבים שנאספו)
+ * - אזורי המלכים של כל שחקן
+ * - ערימת הקלפים שנזרקו (discard pile)
+ * מיועדת לאיפוס התצוגה בלבד לקראת התחלת משחק חדש.
+ */
+ const clearBoardGame = () => {
+    document.getElementById('p1Stand').replaceChildren();
+    document.getElementById('p2Stand').replaceChildren();
+
+    document.getElementById('p1KingsList').replaceChildren();
+    document.getElementById('p2KingsList').replaceChildren();
+
+    document.getElementById('discardPile').replaceChildren();
+};
 /**
  * מציירת (מרנדרת) את הקלף על המסך.
  * @param {string} card - שם הקלף (למשל: 'pita')
@@ -239,8 +253,10 @@ const updateNames = () => {
     document.getElementById('p2Name').textContent = p2;
 };
 /**
- * פונקציה המבצעת את סגירת המשחק מבחינה לוגית וויזואלית.
- * @param {string} message - ההודעה שתופיע למשתמש בחלון סיום המשחק.
+ * מסיימת את המשחק ומציגה חלון תוצאה.
+ * עוצרת את הטיימר ומונעת המשך אינטראקציה עם המשחק.
+ * @param {string} message - הודעת סיום המשחק
+ * @returns {void}
  */
 const endGame=(message)=>{
     //אם נגמר הזמן:
@@ -265,10 +281,24 @@ const endGame=(message)=>{
     }
 };
 /**
+ * מאזין ללחיצות מקלדת ומפעיל שליפת קלף מהחפיסה בלחיצה על רווח.
+ * כאשר המשתמש לוחץ על מקש הרווח (Space), הפונקציה handleDraw()
+ * מופעלת ומבצעת שליפה של קלף מהערימה המרכזית במשחק.
+ * זה מאפשר לשחקן לבצע פעולה גם ללא לחיצה על העכבר.
+ * @param {KeyboardEvent} e - אירוע לחיצה על מקש במקלדת.
+ */
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        handleDraw();
+    }
+});
+/**
  * פונקציה המכריעה את תוצאת המשחק ובודקת האם יש מנצח או איפוס.
  * @param {string} reason - סיבת הסיום (זמן או קלפים).
  */
 const determineWinnerByKings = (reason) => {
+    if(!reason)
+        return;
     // שליפת נתוני השחקנים
     const k1 = playersBoards[0].kings.length;
     const k2 = playersBoards[1].kings.length;
@@ -279,21 +309,21 @@ const determineWinnerByKings = (reason) => {
 
     // בדיקה האם הסיום הוא בגלל זמן
     if (reason === "נגמר הזמן") {
-        finalMessage = "הזמן תם! לא נקבע מנצח והתוצאות התאפסו.";
+        finalMessage = "הזמן תם! לא נקבע מנצח והתוצאות התאפסו⏱️.";
     } 
     // במידה והסיום הוא בגלל שנגמרו הקלפים - מחשבים מנצח
     else {
-        finalMessage = reason + " ";
+        finalMessage =" ";
         if (k1 > k2) {
             sndClapping.play();
-            finalMessage += `המנצח הוא ${name1} עם ${k1} מלכים!`;
+            finalMessage += `המנצח הוא ${name1} עם ${k1} מלכים!🏆`;
             saveToHighScores(name1, k1);
         } else if (k2 > k1) {
             sndClapping.play();
-            finalMessage += `המנצח הוא ${name2} עם ${k2} מלכים!`;
+            finalMessage += `המנצח הוא ${name2} עם ${k2} מלכים!🏆`;
             saveToHighScores(name2, k2);
         } else {
-            finalMessage += "תיקו! לשני השחקנים מספר זהה של מלכים.";
+            finalMessage += "תיקו! לשני השחקנים מספר זהה של מלכים 🏆.";
         }
     }
 
@@ -347,19 +377,21 @@ const startTimer = (seconds) => {
  * מאזין לאירוע טעינת ה-DOM כדי להבטיח שהדף מוכן לפני תחילת הרינדור.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("btnRestart").addEventListener("click", () => {
+      startBtn.addEventListener('click', () => {
+    sndStart.play();
     startGame();
-
-    // סגירת המודאל
-    document.getElementById("endGameModal").classList.add("hidden");
+});
+    document.getElementById("btnRestart").addEventListener("click", () => {
+    sndStart.play();
+    startGame();
 });
 
 document.getElementById("btnClose").addEventListener("click", () => {
-    // סגירת המשחק (למשל חזרה לדף קודם)
-    window.location.href = "../index.html"; 
+    // סגירת המשחק  חזרה לדף הכניסה)
+    window.location.href = "../enter.html"; 
 });
 
 document.getElementById("btnLeaderboard").addEventListener("click", () => {
-    window.location.href = "../highScores.html";
+    window.location.href = "../pages/highScores.html";
 });
 });
