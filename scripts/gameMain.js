@@ -52,10 +52,28 @@ export const renderInitialDeck = () => {
     }
 };
 /**
+ * מציג את ערימת המלכים המרכזית
+ */
+const renderKingsBank = () => {
+    const kingsBank = document.getElementById("kingsBank");
+
+    kingsBank.replaceChildren();
+
+    kingsCards.forEach(() => {
+        const img = document.createElement("img");
+        img.src = "../pictures/king.png";
+        img.classList.add("king-card-style");
+        kingsBank.appendChild(img);
+    });
+};
+kingsCards = createKingsDeck();
+renderKingsBank();
+/**
  * מתחיל משחק חדש בצורה מלאה:
  * מאפס מצב, יוצר חפיסות, מעדכן UI ומפעיל טיימר.
  */
 const startGame = () => {
+     sndStart.play();
     const modal = document.getElementById('endGameModal');
      modal.classList.add('hidden');
      // 2. עצירת הטיימר הישן מיד (למניעת קפיצות של הודעת "נגמר הזמן")
@@ -119,6 +137,7 @@ const handleDraw=()=>{
          renderCard(card,player);
          if(playersBoards[player].ingredients.length===7){
             kingCard=kingsCards.pop()
+            renderKingsBank();
             playersBoards[player].kings.push(kingCard);
             renderKing(kingCard,player);
              clearBoard(player);
@@ -377,10 +396,8 @@ const startTimer = (seconds) => {
  * מאזין לאירוע טעינת ה-DOM כדי להבטיח שהדף מוכן לפני תחילת הרינדור.
  */
 document.addEventListener('DOMContentLoaded', () => {
-      startBtn.addEventListener('click', () => {
-    sndStart.play();
-    startGame();
-});
+       startGame();
+      
     document.getElementById("btnRestart").addEventListener("click", () => {
     sndStart.play();
     startGame();
