@@ -1,73 +1,180 @@
-/* עיצוב דפי ממשק וניהול */
+/* =========================
+   עיצוב כללי
+========================= */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Assistant', sans-serif;
-    /* שימוש בתמונת הרקע הכללית */
-    background-image: url('../images/background2.jpg'); 
+    background-image: url('../pictures/background2.png');
     background-size: cover;
     background-position: center;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     direction: rtl;
 }
 
-/* תיבת התוכן המרכזית - סגנון סמינר מכובד */
+/* =========================
+   קונטיינר ראשי
+========================= */
 .container {
-    background: white;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
     padding: 35px;
-    width: 85%;
-    max-width: 700px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    width: 90%;
+    max-width: 780px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
     text-align: center;
     border-top: 8px solid #2c3e50;
 }
 
-/* כותרות העמודים */
+/* =========================
+   כותרות
+========================= */
 h1 {
     color: #2c3e50;
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
 }
 
-/* כפתורי ניווט והפעלה */
-.btn-action {
-    background-color: #2c3e50;
-    color: #ffffff;
-    padding: 12px 35px;
+h2 {
+    color: #34495e;
+}
+
+/* =========================
+   כפתורים מודרניים
+========================= */
+.btn-action,
+.lvl-btn,
+.menu-button,
+.action-btn {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 12px 22px;
     border: none;
-    border-radius: 4px;
-    font-size: 1.1rem;
+    border-radius: 12px;
     cursor: pointer;
+    font-size: 1rem;
+    margin: 5px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-action:hover,
+.lvl-btn:hover,
+.menu-button:hover,
+.action-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.btn-action:active,
+.lvl-btn:active,
+.menu-button:active,
+.action-btn:active {
+    transform: scale(0.96);
+}
+
+/* =========================
+   קישורים
+========================= */
+a {
+    color: #2c3e50;
     text-decoration: none;
-    display: inline-block;
-    transition: background 0.3s;
+    font-weight: bold;
 }
 
-.btn-action:hover {
-    background-color: #34495e;
+a:hover {
+    color: #1abc9c;
 }
 
-/* טבלת שיאים (highScores.html) */
+/* =========================
+   טבלת שיאים צבעונית
+========================= */
 .scores-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-.scores-table th {
-    background-color: #f8f9fa;
-    color: #2c3e50;
-    padding: 12px;
-    border-bottom: 2px solid #dee2e6;
+.scores-table thead {
+    background: linear-gradient(135deg, #2c3e50, #1abc9c);
+    color: white;
 }
 
+.scores-table th,
 .scores-table td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
+    padding: 14px;
+    text-align: center;
+}
+
+.scores-table tbody tr {
+    background: white;
+    transition: 0.2s;
+}
+
+.scores-table tbody tr:hover {
+    background: #f1f9ff;
+    transform: scale(1.01);
+}
+
+.scores-table tbody tr:nth-child(odd) {
+    background: #f8f9fa;
+}
+
+.scores-table tbody tr:first-child {
+    background: linear-gradient(135deg, #ffd700, #fff3a0);
+    font-weight: bold;
+}
+
+/* =========================
+   עמוד הוראות (Glass)
+========================= */
+.instructions-page {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+/* =========================
+   תיבות הוראות - ממורכזות
+========================= */
+.info-block {
+    background: rgba(255, 255, 255, 0.75);
+    border-right: 6px solid #2c3e50;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 12px;
+
+    /* ⭐ השינוי שביקשת */
+    text-align: center;
+}
+
+/* צבעים לתיבות */
+.info-block.success {
+    border-right-color: #27ae60;
+}
+
+.info-block.danger {
+    border-right-color: #e74c3c;
+}
+
+/* =========================
+   רספונסיביות
+========================= */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
 }
