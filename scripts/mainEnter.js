@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveGameData(config);
 
             // מעבר לדף המשחק
-            window.location.href = `pages/game.html?level=${selectedLevel}`;
+            window.location.href = `pages/gam.html?level=${selectedLevel}`;
         } else {
             errorDiv.textContent = "השמות חייבים להיות שונים ובני 2 תווים לפחות.";
         }

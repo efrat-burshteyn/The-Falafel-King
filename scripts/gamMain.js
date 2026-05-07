@@ -3,7 +3,7 @@
  * @author [Efrat Burshteyn]
  */
 /**יבוא הפונקציות */
-import { createDeck, shuffle, drawCard,createKingsDeck,saveToHighScores } from './gameLogic.js';
+import { createDeck, shuffle, drawCard,createKingsDeck,saveToHighScores } from './gamLogic.js';
 
 let deck=[];
 let usedCards=[];
