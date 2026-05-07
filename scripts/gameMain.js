@@ -299,18 +299,7 @@ const endGame=(message)=>{
         drawPile.style.pointerEvents = 'none';
     }
 };
-/**
- * מאזין ללחיצות מקלדת ומפעיל שליפת קלף מהחפיסה בלחיצה על רווח.
- * כאשר המשתמש לוחץ על מקש הרווח (Space), הפונקציה handleDraw()
- * מופעלת ומבצעת שליפה של קלף מהערימה המרכזית במשחק.
- * זה מאפשר לשחקן לבצע פעולה גם ללא לחיצה על העכבר.
- * @param {KeyboardEvent} e - אירוע לחיצה על מקש במקלדת.
- */
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-        handleDraw();
-    }
-});
+
 /**
  * פונקציה המכריעה את תוצאת המשחק ובודקת האם יש מנצח או איפוס.
  * @param {string} reason - סיבת הסיום (זמן או קלפים).
