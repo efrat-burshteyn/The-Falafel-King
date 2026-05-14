@@ -33,8 +33,11 @@ document.getElementById('levelDisplay').textContent = levelsText[level];
 /**
  *  handleDraw מקשיבה ללחיצה על הערימה אם לחצו מפעילה את הפונקציה
  */
-drawPile.addEventListener('click', () => {
-    handleDraw();
+drawPile.addEventListener('click', (event) => {
+    // שימוש באובייקט האירוע לצורך בדיקה
+    if (event.isTrusted) {
+        handleDraw();
+    }
 });
 /**
  * פונקציה המציגה את ערימת המשיכה מיד עם תחילת המשחק.
@@ -108,7 +111,20 @@ const startGame = () => {
 
 /**אוביקט של מערכי לוחות השחחקנים לכל שחקן דוכם רכיבין ומערך לכרטיסי המלך */
 let playersBoards=[{ingredients:[],kings:[]},{ingredients:[],kings:[]}];
-
+/**
+ * פונקציית עזר ליצירת תמונה והוספתה לאלמנט ב-DOM.
+ * עונה על דרישת DRY (מניעת קוד כפול) ויצירת אלמנטים דינאמית.
+ * @param {HTMLElement} container - האלמנט אליו תתווסף התמונה.
+ * @param {string} cardName - שם הקלף לצורך נתיב התמונה וה-alt.
+ * @param {string} className - מחלקת ה-CSS לעיצוב.
+ */
+const renderImageToContainer = (container, cardName, className = "card-img") => {
+    const img = document.createElement('img');
+    img.src = `../pictures/${cardName}.png`;
+    img.classList.add(className);
+    img.alt = cardName;
+    container.appendChild(img);
+};
 /**
  * מטפלת בלוגיקה של שליפת קלף מהקופה ועדכון לוח השחקן.
  * הפונקציה בודקת שלושה מצבים:
@@ -130,16 +146,16 @@ const handleDraw=()=>{
     }
     else if(playersBoards[player].ingredients.includes(card)){
               usedCards.push(card);
-              renderUsedCard(card);
+             renderImageToContainer(document.getElementById("discardPile"), card);
             }
     else{
          playersBoards[player].ingredients.push(card);
-         renderCard(card,player);
+        renderImageToContainer(document.getElementById(`p${player + 1}Stand`), card);
          if(playersBoards[player].ingredients.length===7){
             kingCard=kingsCards.pop()
             renderKingsBank();
             playersBoards[player].kings.push(kingCard);
-            renderKing(kingCard,player);
+            renderImageToContainer(document.getElementById(`p${player + 1}KingsList`), kingCard, "king-card-style");
              clearBoard(player);
          }
     }
@@ -147,13 +163,7 @@ const handleDraw=()=>{
      // מנקים תוכן קודם בצורה בטוחה
    floating.replaceChildren();
 
-  // יוצרים תמונה
-   const img = document.createElement("img");
-  img.src = `../pictures/${card}.png`;
-    img.className = "card-img";
-
-     // מוסיפים לקונטיינר
-    floating.appendChild(img);
+   renderImageToContainer(floating, card);
 
    floating.style.display = "block";
    floating.classList.remove("hidden");
@@ -163,19 +173,6 @@ const handleDraw=()=>{
     }, 1000);
     switchTurn();
  }
- /**
- * מציגה קלף שנזרק לערימת המשומשים (discard pile) בלוח המשחק.
- * הפונקציה יוצרת אלמנט תמונה חדש לפי סוג הקלף,
- * ומוסיפה אותו לאזור המשומשים על המסך.
- * @param {string} card - שם הקלף שיש להציג (למשל: 'pita', 'chips')
- */
-const renderUsedCard = (card) => {
-    const discard = document.getElementById("discardPile");
-    const img = document.createElement("img");
-    img.src = `../pictures/${card}.png`;
-    img.className = "card-img";
-    discard.appendChild(img);
-};
  /**
  * פונקציה להחלפת תורות בין השחקנים.
  * הפונקציה מעדכנת את המשתנה הלוגי player ומחליפה את העיצוב הוויזואלי
@@ -203,58 +200,6 @@ const renderUsedCard = (card) => {
     const standId = document.getElementById(`p${player + 1}Stand`);
     standId.textContent = '';
  }
-
-/**
- * מאפסת את כל התצוגה הוויזואלית של לוח המשחק.
- * הפונקציה מנקה את כל האלמנטים הקשורים למצב המשחק הקודם מה־DOM:
- * - דוכני השחקנים (הרכיבים שנאספו)
- * - אזורי המלכים של כל שחקן
- * - ערימת הקלפים שנזרקו (discard pile)
- * מיועדת לאיפוס התצוגה בלבד לקראת התחלת משחק חדש.
- */
- const clearBoardGame = () => {
-    document.getElementById('p1Stand').replaceChildren();
-    document.getElementById('p2Stand').replaceChildren();
-
-    document.getElementById('p1KingsList').replaceChildren();
-    document.getElementById('p2KingsList').replaceChildren();
-
-    document.getElementById('discardPile').replaceChildren();
-};
-/**
- * מציירת (מרנדרת) את הקלף על המסך.
- * @param {string} card - שם הקלף (למשל: 'pita')
- * @param {number} player - איזה שחקן קיבל את הקלף (0 או 1)
- */
- const renderCard = (card, player) => {
-    const stand = document.getElementById(`p${player + 1}Stand`);
-    const img = document.createElement('img');
-    
-    img.src = `../pictures/${card}.png`; 
-    
-    //הוספת ה-Alt (הסבר על התמונה)
-    img.alt = card; 
-    
-    img.classList.add('card-img'); 
-    stand.appendChild(img);
-};
-/**
- * מציגה את קלף המלך שהשחקן זכה בו באזור המלכים שלו.
- * @param {string} king -  קלף המלך.
- * @param {number} player - אינדקס השחקן (0 או 1).
- */
-const renderKing = (king, player) => {
-    //  מציאת אזור רשימת המלכים (לפי ה-ID ב-HTML : p1KingsList / p2KingsList)
-    const kingsContainer = document.getElementById(`p${player + 1}KingsList`);
-    //  יצירת אלמנט התמונה
-    const img = document.createElement('img');
-    img.src = `../pictures/${king}.png`; 
-    img.alt = "מלך הפלאפל";
-    //  הוספת עיצוב מיוחד למלכים 
-    img.classList.add('king-card-style'); 
-    // הוספה למסך
-    kingsContainer.appendChild(img);
-};
 /**
  * מעדכנת את שמות השחקנים המוצגים על הלוח.
  * הפונקציה שולפת את השמות שנשמרו בזיכרון הדפדפן (sessionStorage) 
@@ -401,3 +346,16 @@ document.getElementById("btnLeaderboard").addEventListener("click", () => {
     window.location.href = "../pages/highScores.html";
 });
 });
+
+/**
+ * מאפסת את כל הלוחות והתצוגה.
+ * משתמשת ב-forEach (HOF) כדי לעמוד בדרישות הפרויקט.
+ */
+const clearBoardGame = () => {
+    // שימוש ב-forEach על מערך אינדקסים כדי לנקות את הדוכנים
+    [0, 1].forEach(pIndex => {
+        document.getElementById(`p${pIndex + 1}Stand`).replaceChildren();
+        document.getElementById(`p${pIndex + 1}KingsList`).replaceChildren();
+    });
+    document.getElementById('discardPile').replaceChildren();
+};
